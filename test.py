@@ -1,5 +1,5 @@
 import os
-import re
+import ast
 import json
 from collections import OrderedDict
 
@@ -9,6 +9,12 @@ print(type(os.environ['certs']))
 certs = os.environ['certs'].splitlines()
 print(certs)
 print(type(certs))
+
+def check_cert_format(certs):
+  for item in certs:
+    cert = ast.literal_eval(item)
+    
+    
 
 
 
