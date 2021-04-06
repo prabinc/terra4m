@@ -8,6 +8,7 @@ print(os.environ['env_name'])
 print(type(os.environ['certs']))
 certs = os.environ['certs'].splitlines()
 print(certs)
+print(type(certs))
 
 
 
