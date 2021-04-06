@@ -13,10 +13,12 @@ print(type(certs))
 def check_cert_format(certs):
   print("entering function")
   for item in certs:
-    cert = ast.literal_eval(item)
-    
     try:
-      isinstance(cert, dict)
+      cert = ast.literal_eval(item)
+    except:
+      raise ValueError("Enter a valid cert")
+    try:
+      isinstance(item, dict)
     except:
       print("Please input cert in a valid format.")
       
