@@ -18,7 +18,7 @@ def check_cert_format(certs):
     except:
       raise ValueError("Enter a valid cert")
     else:
-      if not isinstance(item, dict):
+      if not isinstance(cert, dict):
         raise ValueError("Input a valid cert")
       
       
