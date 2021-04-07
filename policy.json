@@ -1,0 +1,23 @@
+{
+    "roles": [
+        {
+            "name": "admin"
+        },
+        {
+            "functions": "methods"
+        },
+        {
+            "users": [
+                {
+                    "username": "user number one"
+                },
+                {
+                    "username": "user number two"
+                },
+                {
+                    "username": "user number three"
+                }
+            ]
+        }
+    ]
+}
