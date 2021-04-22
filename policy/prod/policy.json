@@ -1,0 +1,66 @@
+{
+    "roles": [
+        {
+            "name": "admin",
+            "functions": [
+                {
+                    "name": "util",
+                    "methods": [
+                        {
+                            "name": "GET"
+                        }
+                    ]
+                }
+            ],
+            "users": [
+                {
+                    "username": "user number one"
+                },
+                {
+                    "username": "user number two"
+                },
+                {
+                    "username": "user number three"
+                }
+            ]
+        },
+        {
+            "name": "readonly",
+            "functions": [
+                {
+                    "name": "util",
+                    "methods": [
+                        {
+                            "name": "GET"
+                        }
+                    ]
+                },
+                {
+                    "name": "common",
+                    "methods": [
+                        {
+                            "name": "GET"
+                        },
+                        {
+                            "name": "DELETE"
+                        },
+                        {
+                            "name": "POST"
+                        }
+                    ]
+                }
+            ],
+            "users": [
+                {
+                    "username": "user number one"
+                },
+                {
+                    "username": "user number two"
+                },
+                {
+                    "username": "user number three"
+                }
+            ]
+        }
+    ]
+}
