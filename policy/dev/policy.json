@@ -14,13 +14,13 @@
             ],
             "users": [
                 {
-                    "username": "user number one"
+                    "username": "dev admin user number one"
                 },
                 {
-                    "username": "user number two"
+                    "username": "dev admin user number two"
                 },
                 {
-                    "username": "user number three"
+                    "username": "dev admin user number three"
                 }
             ]
         },
@@ -52,13 +52,13 @@
             ],
             "users": [
                 {
-                    "username": "user number one"
+                    "username": "dev readonly user number one"
                 },
                 {
-                    "username": "user number two"
+                    "username": "dev read only user number two"
                 },
                 {
-                    "username": "user number three"
+                    "username": "dev readonly user number three"
                 }
             ]
         }
