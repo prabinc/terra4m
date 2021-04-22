@@ -45,7 +45,7 @@ def add_cert(env, cert, role):
 
 
 def print_all_users(policy):
-    for item in range(len(policy["roles"])):
+    for item in policy["roles"]:
         for user in item["users"]:
             print(user)
 
