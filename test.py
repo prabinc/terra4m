@@ -12,7 +12,7 @@ certs_to_add = os.environ["certs"].splitlines()
 policy_file = {"dev": "policy/dev/policy.json", "prod": "policy/prod/policy.json"}
 
 env_name = os.environ["env_name"]
-role = os.environ["role_name"]
+role = os.environ["role"]
 
 
 def load_file():
