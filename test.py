@@ -55,6 +55,6 @@ if __name__ == "__main__":
     check_cert_format(certs_input)
     policy = load_file()
     print_all_users(policy)
-    add_cert(policy, certs_to_add, role)
+    add_cert(policy, certs_input, role)
     print_all_users(policy)
 
