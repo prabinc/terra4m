@@ -65,7 +65,7 @@ if __name__ == "__main__":
     policy = load_file()
     print_all_users(policy)
     print(100*"#")
-    cert_exists(policy_file, certs_input, role)
+    cert_exists(policy, certs_input, role)
     add_cert(policy, certs_input, role)
     print_all_users(policy)
     write_to_file(policy)
