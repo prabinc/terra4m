@@ -34,8 +34,13 @@ def check_cert_format(certs):
                 raise ValueError("Input a valid cert")
 
 
-def cert_exists():
-    pass
+def cert_exists(policy_file, certs, role):
+    for cert in certs:
+        for item in policy_file["roles"]:
+            if item["name"] == role:
+                for user in item["users"]:
+                    if user == cert:
+                        return "cert already exists in given role"
 
 
 def add_cert(policy_file, certs, role):
@@ -43,6 +48,10 @@ def add_cert(policy_file, certs, role):
         for item in policy_file["roles"]:
             if item["name"] == role:
                 item["users"].append(cert)
+                
+def write_to_file(policy_file):
+    with open("policy.json", "w") as f:
+        json.dump(policy_file, f, indent=2)
 
 
 def print_all_users(policy):
@@ -55,7 +64,10 @@ if __name__ == "__main__":
     check_cert_format(certs_input)
     policy = load_file()
     print_all_users(policy)
-    print("####################################################")
+    print(100*"#")
+    cert_exists(policy_file, certs_input, role)
     add_cert(policy, certs_input, role)
     print_all_users(policy)
+    write_to_file(policy)
+    
 
