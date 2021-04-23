@@ -6,12 +6,13 @@ from collections import OrderedDict
 # print("hello world, for real?")
 # print(os.environ['env_name'])
 # print(type(os.environ['certs']))
-certs = os.environ["certs"].splitlines()
+certs_to_add = os.environ["certs"].splitlines()
 # print(certs)
 # print(type(certs))
 policy_file = {"dev": "policy/dev/policy.json", "prod": "policy/prod/policy.json"}
 
 env_name = os.environ["env_name"]
+role = os.environ["role_name"]
 
 
 def load_file():
@@ -37,15 +38,15 @@ def cert_exists():
     pass
 
 
-def add_cert(env, cert, role):
-
-    for item in policy["roles"]:
-        if item["name"] == role:
-            item["users"].append(cert)
+def add_cert(policy_file, certs, role):
+    for cert in certs:
+        for item in policy_file["roles"]:
+            if item["name"] == role:
+                item["users"].append(cert)
 
 
 def print_all_users(policy):
-    for item in policy["roles"]:
+    for item in range(len(policy["roles"])):
         for user in item["users"]:
             print(user)
 
@@ -53,5 +54,7 @@ def print_all_users(policy):
 if __name__ == "__main__":
     check_cert_format(certs)
     policy = load_file()
+    print_all_users(policy)
+    add_cert(policy, certs_to_add, role)
     print_all_users(policy)
 
