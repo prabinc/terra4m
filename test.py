@@ -38,9 +38,8 @@ def cert_exists(policy_file, certs, role):
     for cert in certs:
         for item in policy_file["roles"]:
             if item["name"] == role:
-                for user in item["users"]:
-                    if user == cert:
-                        return "cert already exists in given role"
+                if ast.literal_eval(cert) in item['users']:
+                  return "cert already exists in given role"
 
 
 def add_cert(policy_file, certs, role):
