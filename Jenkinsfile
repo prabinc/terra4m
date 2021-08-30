@@ -37,8 +37,8 @@ ansicolor('xterm') {
                 checkout scm: [
                     $class: 'GitSCM',
                     userRemoteConfigs:[[
-                        url: "",
-                        credentialsId: ""
+                        url: "https://github.com/prabinc/test.git",
+                        credentialsId: "github-credentials"
                     ]],
                     branches: [[name: '*/main']],
                     extensions: [
@@ -59,8 +59,8 @@ ansicolor('xterm') {
                 checkout scm: [
                     $class: 'GitSCM',
                     userRemoteConfigs:[[
-                        url: "",
-                        credentialsId: ""
+                        url: "https://github.com/prabinc/test.git",
+                        credentialsId: "github-credentials"
                     ]],
                     branches: [[name: '*/main']],
                     extensions: [
@@ -73,7 +73,7 @@ ansicolor('xterm') {
                             noTags: true,
                             reference: '',
                             shallow: true
-
+                        ]]]
                 }
                 stage('Terraform lint and validate') {
                     sh 'echo "validate terraform source code"'
