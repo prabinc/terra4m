@@ -10,10 +10,9 @@ properties([
             description: 'just a test parameter'
         ),
         string(
-            defaultValue: "sample string parameter",
+            defaultValue: 'sample string parameter',
             name: 'StringCrunch',
             description: 'test string parameter',
-            defaultValue: "string123"
         ),
         booleanParam(
             defaultValue: false,
@@ -30,21 +29,21 @@ properties([
 
 ansicolor('xterm') {
     node ('master') {
-        timestamps{
+        timestamps {
             try {
                 //checkout source code for jenkins jobs
                 stage('Checkout jenkins jobs source') {
-                checkout scm: [
+                    checkout scm: [
                     $class: 'GitSCM',
                     userRemoteConfigs:[[
-                        url: "https://github.com/prabinc/test.git",
-                        credentialsId: "github-credentials"
+                        url: 'https://github.com/prabinc/test.git',
+                        credentialsId: 'github-credentials'
                     ]],
                     branches: [[name: '*/main']],
                     extensions: [
                         [
                             $class: 'RelativeTargetDirectory',
-                            RelativeTargetDir: "jenkins"
+                            RelativeTargetDir: 'jenkins'
                         ],
                         [
                             $class: 'CloneOption',
@@ -56,17 +55,17 @@ ansicolor('xterm') {
                 ]
                 }
                 stage('Checkout terraform source code') {
-                checkout scm: [
+                    checkout scm: [
                     $class: 'GitSCM',
                     userRemoteConfigs:[[
-                        url: "https://github.com/prabinc/test.git",
-                        credentialsId: "github-credentials"
+                        url: 'https://github.com/prabinc/test.git',
+                        credentialsId: 'github-credentials'
                     ]],
                     branches: [[name: '*/main']],
                     extensions: [
                         [
                             $class: 'RelativeTargetDirectory',
-                            RelativeTargetDir: "terraform"
+                            RelativeTargetDir: 'terraform'
                         ],
                         [
                             $class: 'CloneOption',
@@ -78,14 +77,12 @@ ansicolor('xterm') {
                 stage('Terraform lint and validate') {
                     sh 'echo "validate terraform source code"'
                 }
-
-            } catch(Exception e) {
-                currentBuild.result = "Failure"
-                throw e;
-
+            } catch (Exception e) {
+                currentBuild.result = 'Failure'
+                throw e
             } finally {
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", to: 'test@test.com'
+                emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", to: 'test@test.com'
             }
         }
     }
-
+}
