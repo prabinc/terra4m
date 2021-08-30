@@ -43,7 +43,7 @@ ansicolor('xterm') {
                     branches: [[name: '*/main']],
                     extensions: [
                         [
-                            $class: 'RelativeTargetDirectory'
+                            $class: 'RelativeTargetDirectory',
                             RelativeTargetDir: "jenkins"
                         ],
                         [
@@ -65,7 +65,7 @@ ansicolor('xterm') {
                     branches: [[name: '*/main']],
                     extensions: [
                         [
-                            $class: 'RelativeTargetDirectory'
+                            $class: 'RelativeTargetDirectory',
                             RelativeTargetDir: "terraform"
                         ],
                         [
