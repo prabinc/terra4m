@@ -27,7 +27,7 @@ properties([
     )
 ])
 
-ansicolor('xterm') {
+ansiColor('xterm') {
     node ('master') {
         timestamps {
             try {
