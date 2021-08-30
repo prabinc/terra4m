@@ -12,14 +12,13 @@ properties([
         string(
             defaultValue: "sample string parameter",
             name: 'StringCrunch',
-            description: 'test string parameter'
+            description: 'test string parameter',
             defaultValue: "string123"
         ),
         booleanParam(
             defaultValue: false,
             name: 'JOB_REFRESH',
             description: 'Refreshes the job by checking out jenkinsfile sourcecode adn updates the job'
-        )
         )
     ]),
     buildDiscarder(
@@ -30,7 +29,7 @@ properties([
 ])
 
 ansicolor('xterm') {
-    node ('modernization_k8') {
+    node ('master') {
         timestamps{
             try {
                 //checkout source code for jenkins jobs
@@ -74,8 +73,8 @@ ansicolor('xterm') {
                             noTags: true,
                             reference: '',
                             shallow: true
-            
-                }   
+
+                }
                 stage('Terraform lint and validate') {
                     sh 'echo "validate terraform source code"'
                 }
@@ -85,9 +84,8 @@ ansicolor('xterm') {
                 throw e;
 
             } finally {
-            
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", to: 'test@test.com' 
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", to: 'test@test.com'
+            }
         }
     }
-}
 
