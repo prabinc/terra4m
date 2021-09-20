@@ -30,15 +30,15 @@ output "nat_public_ips" {
 }
 #Security group outputs
 output "bastion-sg" {
-    value = module.sg.bastion-sg
+  value = module.sg.bastion-sg
 }
 
 output "controller-node-sg" {
-    value = module.sg.controller-node-sg
+  value = module.sg.controller-node-sg
 }
 
 output "cluster-sg" {
-    value = module.sg.cluster-sg
+  value = module.sg.cluster-sg
 }
 
 

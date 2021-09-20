@@ -19,6 +19,7 @@ resource "aws_security_group" "bastion-sg" {
     to_port     = 22122
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    description = "bastion open to internet"
   }
 
   egress {
@@ -41,8 +42,8 @@ resource "aws_security_group" "controller-node-sg" {
   description = "Bastion to controller node"
 
   ingress {
-    from_port       = 22122
-    to_port         = 22122
+    from_port       = var.bastion_ssh_port
+    to_port         = var.bastion_ssh_port
     protocol        = "tcp"
     security_groups = ["${aws_security_group.bastion-sg.id}"]
   }
@@ -60,7 +61,7 @@ resource "aws_security_group" "controller-node-sg" {
 }
 resource "aws_security_group" "cluster-sg" {
   tags = merge(
-    tomap({ "Name" = "${var.prefix}c-sg" }),
+    tomap({ "Name" = "${var.prefix}cl-sg" }),
     local.common_tags
   )
   vpc_id      = var.vpc_id
@@ -109,8 +110,10 @@ resource "aws_security_group" "internal_elb" {
 
   tags = merge(
     local.common_tags,
-    tomap({ "Name" = "${var.prefix}-internal-elb-sg}" })
+    tomap({ "Name" = "${var.prefix}-internal-elb-sg" })
   )
 }
 
-
+#####################################################################
+##### security groups for EKS    ######################
+#####################################################################

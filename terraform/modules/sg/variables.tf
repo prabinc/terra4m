@@ -1,13 +1,13 @@
 variable "prefix" {
-    description = "prefix will be add in the front of resource name"
+  description = "prefix will be add in the front of resource name"
 }
 
 variable "project" {
-    description = "name of the project"
+  description = "name of the project"
 }
 
 variable "application" {
-    description = "name of the application"
+  description = "name of the application"
 }
 
 variable "vpc_id" {
@@ -16,4 +16,8 @@ variable "vpc_id" {
 
 variable "vpc_cidr" {
   description = "The cidr block to use for internal security groups"
+}
+variable "bastion_ssh_port" {
+  description = "ssh port for bastion host"
+  default     = 22122
 }
