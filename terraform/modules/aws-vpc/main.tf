@@ -66,6 +66,7 @@ resource "aws_subnet" "public" {
   tags = merge(
     local.common_tags,
     var.public_eks_tag,
+    tomap({ "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared" }),
     tomap({ "Name" = "${var.prefix}-pub${count.index}-${var.azs[count.index]}" })
   )
 }
@@ -81,6 +82,7 @@ resource "aws_subnet" "private" {
   tags = merge(
     local.common_tags,
     var.private_eks_tag,
+    tomap({ "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared" }),
     tomap({ "Name" = "${var.prefix}-pvt${count.index}-${var.azs[count.index]}" })
   )
 }
@@ -100,6 +102,20 @@ resource "aws_subnet" "db" {
     tomap({ "Name" = "${var.prefix}-db${count.index}-${var.azs[count.index]}" })
   )
 }
+######################################################################
+############# one extra subnet   ##################################
+resource "aws_subnet" "extra" {
+  count             = length(var.extra_subnet_cidr)
+  vpc_id            = aws_vpc.main[0].id
+  cidr_block        = var.extra_subnet_cidr[count.index]
+  availability_zone = var.azs[count.index]
+
+  tags = merge(
+    local.common_tags,
+    tomap({ "Name" = "${var.prefix}-pvt${length(var.private_subnet_cidr) + 1}-${var.azs[count.index]}" })
+  )
+}
+######################################################################
 #################################################################################
 #Route Tables, Route Table Association and Routes
 #################################################################################
@@ -138,10 +154,23 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.private-rt.id
 }
 
+resource "aws_route_table_association" "extra" {
+  count          = length(var.extra_subnet_cidr)
+  subnet_id      = element(aws_subnet.extra.*.id, count.index)
+  route_table_id = aws_route_table.private-rt.id
+}
+
+resource "aws_route_table_association" "db" {
+  count          = length(var.db_subnet_cidr)
+  subnet_id      = element(aws_subnet.db.*.id, count.index)
+  route_table_id = aws_route_table.private-rt.id
+}
+
 resource "aws_route" "route-nat-gateway" {
   route_table_id         = aws_route_table.private-rt.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_nat_gateway.main.id
 }
+
 
 

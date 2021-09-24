@@ -9,3 +9,6 @@ output "controller-node-sg" {
 output "cluster-sg" {
     value = aws_security_group.cluster-sg.id
 }
+output "jenkins-sg" {
+    value = aws_security_group.jenkins-sg.id
+}

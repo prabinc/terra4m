@@ -18,3 +18,19 @@ variable "private_eks_tag" {
   type        = map(any)
   default     = { "kubernetes.io/role/internal-elb" = 1 }
 }
+
+variable "bastion_ami" {
+  description = "ami id for bastion server"
+  default     = ""
+}
+
+variable "controller_ami" {
+  description = "ami id for eks controller node"
+  default     = ""
+}
+
+variable "jenkins_ami" {
+  description = "ami id for jenkins node"
+  default = ""
+}
+

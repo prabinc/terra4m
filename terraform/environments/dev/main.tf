@@ -23,12 +23,14 @@ module "vpc" {
   public_subnet_cidr  = ["10.0.16.128/25", "10.0.17.0/25", "10.0.17.128/25"]
   private_subnet_cidr = ["10.0.19.0/24", "10.0.20.0/24", "10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
   db_subnet_cidr      = ["10.0.16.0/27", "10.0.16.32/27", "10.0.16.64/27"]
+  extra_subnet_cidr   = ["10.0.18.0/24"]
   enable_nat_gateway  = true
   public_eks_tag      = var.public_eks_tag
   private_eks_tag     = var.private_eks_tag
   prefix              = var.prefix
   project             = var.project
   application         = var.application
+  eks_cluster_name    = var.prefix
 }
 
 module "sg" {
@@ -40,3 +42,28 @@ module "sg" {
   application = var.application
 
 }
+
+module "eks" {
+  source                  = "../../modules/eks"
+  cluster_name            = var.prefix
+  k8s_version             = "1.20"
+  node_instance_type      = "t3.small"
+  desired_capacity        = 2
+  max_size                = 3
+  min_size                = 1
+  vpc_id                  = module.vpc.vpc_id
+  vpc_cidr                = module.vpc.vpc_cidr
+  endpoint_private_access = true
+  endpoint_public_access  = true
+  subnet_ids              = module.vpc.subnet_ids
+  private_subnets         = module.vpc.private_subnets
+  vpc_subnet_cidr         = module.vpc.vpc_cidr
+  private_subnet_cidr     = module.vpc.private_subnets_cidr_blocks
+  public_subnet_cidr      = module.vpc.public_subnets_cidr_blocks
+  db_subnet_cidr          = module.vpc.db_subnets_cidr_blocks
+  eks_cw_logging          = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  prefix                  = var.prefix
+  project                 = var.project
+  application             = var.application
+}
+

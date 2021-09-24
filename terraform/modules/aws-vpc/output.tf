@@ -12,16 +12,13 @@ output "vpc_cidr" {
   description = "The CIDR block of the VPC"
   value       = concat(aws_vpc.main[0].*.cidr_block, [""])[0]
 }
-
+# value       = concat(aws_vpc.main[0].*.cidr_block, [""])[0]
+#  value       = aws_vpc.main[0].cidr_block
 output "default_security_group_id" {
   description = "The ID of the security group created by default on VPC creation"
   value       = concat(aws_vpc.main[0].*.default_security_group_id, [""])[0]
 }
 
-output "default_network_acl_id" {
-  description = "The ID of the default network ACL"
-  value       = concat(aws_vpc.main[0].*.default_network_acl_id, [""])[0]
-}
 
 output "default_route_table_id" {
   description = "The ID of the default route table"
@@ -66,6 +63,11 @@ output "db_subnets" {
   value       = aws_subnet.db.*.id
 }
 
+output "subnet_ids" {
+  description = "List of public and private subnet to be used for EKS"
+  value = concat(aws_subnet.private.*.id, aws_subnet.public.*.id)
+}
+
 output "db_subnet_arns" {
   description = "List of ARNs of private subnets"
   value       = aws_subnet.db.*.arn
@@ -89,6 +91,7 @@ output "public_subnets_cidr_blocks" {
   description = "List of cidr_blocks of public subnets"
   value       = aws_subnet.public.*.cidr_block
 }
+
 output "nat_ids" {
   description = "List of allocation ID of Elastic IPs created for AWS NAT Gateway"
   value       = aws_eip.main.id

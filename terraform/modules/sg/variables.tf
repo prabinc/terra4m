@@ -16,6 +16,7 @@ variable "vpc_id" {
 
 variable "vpc_cidr" {
   description = "The cidr block to use for internal security groups"
+
 }
 variable "bastion_ssh_port" {
   description = "ssh port for bastion host"
