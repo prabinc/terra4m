@@ -47,4 +47,8 @@ output "cluster-sg" {
   value = module.sg.cluster-sg
 }
 
+output "eks_cluster_name" {
+  value = module.eks.cluster_name
+}
+
 

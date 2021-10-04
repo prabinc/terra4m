@@ -2,9 +2,11 @@
 
 # IAM roles and policy attachement for CLUSTER
 resource "aws_iam_role" "cluster" {
-  name = "${var.prefix}-eks-cluster-role"
-
-  assume_role_policy = <<POLICY
+  name                  = "${var.prefix}-eks-cluster-role"
+  force_detach_policies = false
+  max_session_duration  = 3600
+  path                  = "/"
+  assume_role_policy    = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -18,6 +20,7 @@ resource "aws_iam_role" "cluster" {
   ]
 }
 POLICY
+
 }
 
 resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSClusterPolicy" {
@@ -31,14 +34,16 @@ resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSServicePolicy" {
 }
 resource "aws_iam_role_policy_attachment" "amazon_eks_vpc_resource_controller" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
-  role = aws_iam_role.cluster.name
+  role       = aws_iam_role.cluster.name
 }
 
 # IAM roles and policy attachement for NODES
 resource "aws_iam_role" "node" {
-  name = "${var.prefix}-eks-node-role"
-
-  assume_role_policy = <<POLICY
+  name                  = "${var.prefix}-eks-node-role"
+  force_detach_policies = false
+  max_session_duration  = 3600
+  path                  = "/"
+  assume_role_policy    = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [

@@ -31,6 +31,6 @@ variable "controller_ami" {
 
 variable "jenkins_ami" {
   description = "ami id for jenkins node"
-  default = ""
+  default     = ""
 }
 

@@ -33,9 +33,9 @@ variable "public_kublet_extra_args" {
 variable "vpc_id" {
   description = "vpc id - get from vpc module"
 }
-variable "vpc_cidr"{
+variable "vpc_cidr" {
   description = "cidr block of the vpc"
-  
+
 }
 
 variable "vpc_subnet_cidr" {
@@ -60,7 +60,7 @@ variable "db_subnet_cidr" {
 
 variable "subnet_ids" {
   description = "list of all private and public subnets"
-  type = list(any)
+  type        = list(any)
 }
 
 variable "private_subnets" {

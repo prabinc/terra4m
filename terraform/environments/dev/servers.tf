@@ -2,6 +2,7 @@
 #################### bastion server  ####################
 
 resource "aws_instance" "bastion" {
+  count                       = 0
   ami                         = var.bastion_ami
   instance_type               = "t2.micro"
   subnet_id                   = element(module.vpc.public_subnets, 1)
@@ -37,11 +38,13 @@ resource "aws_instance" "controller" {
   lifecycle {
     prevent_destroy = true
   }
+  depends_on = [module.eks.main]
 }
 
 #################### jenkins instance  ####################
 
 resource "aws_instance" "jenkins" {
+  count                       = 0
   ami                         = var.jenkins_ami
   instance_type               = "t2.micro"
   subnet_id                   = element(module.vpc.private_subnets, 1)
