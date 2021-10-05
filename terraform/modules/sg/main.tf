@@ -121,20 +121,20 @@ resource "aws_security_group_rule" "jenkins-ingress-443" {
   security_group_id = aws_security_group.jenkins-sg.id
 }
 resource "aws_security_group_rule" "jenkins-ingress-22122" {
-  type              = "ingress"
-  from_port         = 22122
-  to_port           = 22122
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 22122
+  to_port                  = 22122
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.bastion-sg.id
-  security_group_id = aws_security_group.jenkins-sg.id
+  security_group_id        = aws_security_group.jenkins-sg.id
 }
 resource "aws_security_group_rule" "jenkins-ingress-22" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 22
+  to_port                  = 22
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.bastion-sg.id
-  security_group_id = aws_security_group.jenkins-sg.id
+  security_group_id        = aws_security_group.jenkins-sg.id
 }
 resource "aws_security_group_rule" "jenkins-egress" {
   type              = "egress"

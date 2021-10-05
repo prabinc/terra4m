@@ -2,12 +2,12 @@ output "cluster_name" {
   value = aws_eks_cluster.main.name
 }
 
-output ca {
-  value=aws_eks_cluster.main.certificate_authority[0].data
+output "ca" {
+  value = aws_eks_cluster.main.certificate_authority[0].data
 }
 
-output endpoint {
-  value=aws_eks_cluster.main.endpoint
+output "endpoint" {
+  value = aws_eks_cluster.main.endpoint
 }
 
 locals {
@@ -60,4 +60,12 @@ output "config-map-aws-auth" {
 
 output "kubeconfig" {
   value = "local.kubeconfig"
+}
+
+output "eks_cluster_sg" {
+  value = aws_security_group.cluster-sg.id
+}
+
+output "eks_nodeg_sg" {
+  value = aws_security_group.node-sg.id
 }

@@ -65,7 +65,7 @@ output "db_subnets" {
 
 output "subnet_ids" {
   description = "List of public and private subnet to be used for EKS"
-  value = concat(aws_subnet.private.*.id, aws_subnet.public.*.id)
+  value       = concat(aws_subnet.private.*.id, aws_subnet.public.*.id)
 }
 
 output "db_subnet_arns" {
