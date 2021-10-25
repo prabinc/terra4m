@@ -10,6 +10,14 @@ output "endpoint" {
   value = aws_eks_cluster.main.endpoint
 }
 
+output "eks_cluster_sg" {
+  value = aws_security_group.cluster-sg.id
+}
+
+output "eks_nodeg_sg" {
+  value = aws_security_group.node-sg.id
+}
+
 locals {
   config-map-aws-auth = <<CONFIGMAPAWSAUTH
 apiVersion: v1
@@ -19,7 +27,7 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: data.terraform_remote_state.iam.outputs.nodegroup_role_arn
+    - rolearn: aws_iam_role.node.arn
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
@@ -31,7 +39,7 @@ apiVersion: v1
 clusters:
 - cluster:
     server: aws_eks_cluster.eks-cluster.endpoint
-    certificate-authority-data: aws_eks_cluster.eks-cluster.certificate_authority.0.data
+    certificate-authority-data: aws_eks_cluster.main.certificate_authority.0.data
   name: kubernetes
 contexts:
 - context:
@@ -50,11 +58,11 @@ users:
       args:
         - "token"
         - "-i"
-        - "aws_eks_cluster.eks-cluster.name"
+        - "aws_eks_cluster.main.name"
 KUBECONFIG
 }
 
-output "config-map-aws-auth" {
+output "config_map_aws_auth" {
   value = "local.config-map-aws-auth"
 }
 
@@ -62,10 +70,12 @@ output "kubeconfig" {
   value = "local.kubeconfig"
 }
 
-output "eks_cluster_sg" {
-  value = aws_security_group.cluster-sg.id
+resource "local_file" "kube_config_file" {
+  content  = local.kubeconfig
+  filename = "config"
 }
 
-output "eks_nodeg_sg" {
-  value = aws_security_group.node-sg.id
+resource "local_file" "aws-auth-cm" {
+  content  = local.config-map-aws-auth
+  filename = "aws-auth-cm.yml"
 }

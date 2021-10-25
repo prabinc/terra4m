@@ -140,8 +140,8 @@ resource "aws_route" "public-internet-access" {
   gateway_id             = aws_internet_gateway.main.id
 }
 
-resource "aws_route_table" "private-rt" {
-  vpc_id = aws_vpc.main[0].id
+resource "aws_default_route_table" "private-rt" {
+  default_route_table_id = aws_vpc.main[0].default_route_table_id
   tags = merge(
     local.common_tags,
     tomap({ "Name" = "${var.prefix}-private-rt" })
@@ -151,23 +151,23 @@ resource "aws_route_table" "private-rt" {
 resource "aws_route_table_association" "private" {
   count          = length(var.private_subnet_cidr)
   subnet_id      = element(aws_subnet.private.*.id, count.index)
-  route_table_id = aws_route_table.private-rt.id
+  route_table_id = aws_default_route_table.private-rt.id
 }
 
 resource "aws_route_table_association" "extra" {
   count          = length(var.extra_subnet_cidr)
   subnet_id      = element(aws_subnet.extra.*.id, count.index)
-  route_table_id = aws_route_table.private-rt.id
+  route_table_id = aws_default_route_table.private-rt.id
 }
 
 resource "aws_route_table_association" "db" {
   count          = length(var.db_subnet_cidr)
   subnet_id      = element(aws_subnet.db.*.id, count.index)
-  route_table_id = aws_route_table.private-rt.id
+  route_table_id = aws_default_route_table.private-rt.id
 }
 
 resource "aws_route" "route-nat-gateway" {
-  route_table_id         = aws_route_table.private-rt.id
+  route_table_id         = aws_default_route_table.private-rt.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_nat_gateway.main.id
 }

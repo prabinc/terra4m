@@ -9,7 +9,7 @@ locals {
 resource "aws_security_group" "bastion-sg" {
   tags = merge(
     local.common_tags,
-    tomap({ "Name" = "${var.prefix}b-sg" })
+    tomap({ "Name" = "${var.prefix}bastion-sg" })
   )
   vpc_id      = var.vpc_id
   description = "Bastion open to internet"
@@ -94,7 +94,7 @@ resource "aws_security_group_rule" "cluster-sg-egress-rule" {
 
 resource "aws_security_group" "jenkins-sg" {
   tags = merge(
-    tomap({ "Name" = "${var.prefix}cl-sg" }),
+    tomap({ "Name" = "${var.prefix}jenkins-sg" }),
     local.common_tags
   )
   vpc_id      = var.vpc_id

@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-2"
 }
 
 
@@ -19,9 +19,9 @@ module "vpc" {
   create_vpc          = true
   source              = "../../modules/aws-vpc"
   cidr_block          = "10.0.16.0/21"
-  azs                 = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1a", "us-east-1b"]
+  azs                 = ["us-east-2a", "us-east-2b", "us-east-2c", "us-east-2a", "us-east-2b"]
   public_subnet_cidr  = ["10.0.16.128/25", "10.0.17.0/25", "10.0.17.128/25"]
-  private_subnet_cidr = ["10.0.19.0/24", "10.0.20.0/24", "10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
+  private_subnet_cidr = ["10.0.19.0/24", "10.0.20.0/24", "10.0.21.0/24", "10.0.22.0/24"]
   db_subnet_cidr      = ["10.0.16.0/27", "10.0.16.32/27", "10.0.16.64/27"]
   extra_subnet_cidr   = ["10.0.18.0/24"]
   enable_nat_gateway  = true

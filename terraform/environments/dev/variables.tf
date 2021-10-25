@@ -26,7 +26,7 @@ variable "bastion_ami" {
 
 variable "controller_ami" {
   description = "ami id for eks controller node"
-  default     = ""
+  default     = "ami-094f72c711db030be"
 }
 
 variable "jenkins_ami" {

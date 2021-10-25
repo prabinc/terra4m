@@ -8,7 +8,7 @@ resource "aws_security_group" "cluster-sg" {
   vpc_id      = var.vpc_id
   tags = merge(
     local.common_tags,
-    tomap({ "Name" = "${var.prefix}" })
+    tomap({ "Name" = "${var.prefix}-eks-cluster-sg" })
   )
   lifecycle {
     create_before_destroy = true
@@ -20,7 +20,7 @@ resource "aws_security_group" "node-sg" {
   vpc_id      = var.vpc_id
   tags = merge(
     local.common_tags,
-    tomap({ "Name" = "${var.prefix}" })
+    tomap({ "Name" = "${var.prefix}-eks-node-sg" })
   )
   lifecycle {
     create_before_destroy = true

@@ -23,6 +23,7 @@ resource "aws_instance" "bastion" {
 #################### eks controller node  ####################
 
 resource "aws_instance" "controller" {
+  count = 0
   ami                         = var.controller_ami
   instance_type               = "t2.micro"
   subnet_id                   = element(module.vpc.private_subnets, 1)
@@ -35,8 +36,12 @@ resource "aws_instance" "controller" {
     reboot now
   EOF
 
+  tags = merge(
+    local.common_tags,
+    tomap({ "Name" = "${var.prefix}-controller" })
+  )
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
   depends_on = [module.eks.main]
 }

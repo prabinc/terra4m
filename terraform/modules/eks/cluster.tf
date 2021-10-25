@@ -17,7 +17,7 @@ resource "aws_eks_cluster" "main" {
   role_arn = aws_iam_role.cluster.arn
 
   vpc_config {
-    #  security_group_ids = [data.aws_security_group.cluster.id]  ## eks might create needed SGs
+    security_group_ids = [aws_security_group.cluster-sg.id]
     subnet_ids              = var.subnet_ids
     endpoint_private_access = var.endpoint_private_access
     endpoint_public_access  = var.endpoint_public_access

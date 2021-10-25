@@ -1,18 +1,18 @@
 
 resource "aws_eks_addon" "vpc-cni" {
-  depends_on   = [aws_eks_node_group.eks-node-group]
+#  depends_on   = [aws_eks_node_group.eks-node-group]
   cluster_name = aws_eks_cluster.main.name
   addon_name   = "vpc-cni"
 }
 
 resource "aws_eks_addon" "kube-proxy" {
-  depends_on   = [aws_eks_node_group.eks-node-group]
+#  depends_on   = [aws_eks_node_group.eks-node-group]
   cluster_name = aws_eks_cluster.main.name
   addon_name   = "kube-proxy"
 }
 
 resource "aws_eks_addon" "coredns" {
-  depends_on   = [aws_eks_node_group.eks-node-group]
+#  depends_on   = [aws_eks_node_group.eks-node-group]
   cluster_name = aws_eks_cluster.main.name
   addon_name   = "coredns"
 }
@@ -41,7 +41,14 @@ resource "aws_eks_node_group" "eks-node-group" {
     min_size     = var.min_size
   }
 
-  instance_types = [var.node_instance_type]
+  launch_template {
+    name = aws_launch_template.lt-eks-ng.name
+    version = aws_launch_template.lt-eks-ng.latest_version
+  }
+  remote_access {
+    
+  }
+  # instance_types = []   #will be set in the launch template
 
   #kubernetes labels
   labels = {
@@ -57,6 +64,11 @@ resource "aws_eks_node_group" "eks-node-group" {
     "eks/nodegroup-name"                          = format("ng1-%s", aws_eks_cluster.main.name)
     "eks/nodegroup-type"                          = "managed"
     "eksctl.cluster.k8s.io/v1alpha1/cluster-name" = aws_eks_cluster.main.name
+    "Name"                                        = "${var.prefix}"
+    "Environment"                                 = terraform.workspace
+    "Project"                                     = "${var.project}"
+    "Application"                                 = "${var.application}"
+    "ManagedBy"                                   = "Terraform"
   }
 
   lifecycle {

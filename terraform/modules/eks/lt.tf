@@ -1,11 +1,12 @@
 resource "aws_launch_template" "lt-eks-ng" {
-  instance_type = "var.node_instance_type"
+  name = "${var.prefix}-eks-lt"
+  instance_type = var.node_instance_type
 
   tag_specifications {
     resource_type = "instance"
     tags = merge(
       local.common_tags,
-      tomap({ "Name" = "${var.prefix}" })
+      tomap({ "Name" = "${var.prefix}-test-string" })
     )
   }
   image_id               = data.aws_ssm_parameter.eksami.value
@@ -15,5 +16,6 @@ resource "aws_launch_template" "lt-eks-ng" {
   lifecycle {
     create_before_destroy = true
   }
+
 
 }
